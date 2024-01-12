@@ -2,6 +2,7 @@
 
 const express = require('express');
 const connectDB = require('./config/db');
+const cors = require('cors'); // Import the cors middleware
 
 const app = express();
 
@@ -11,6 +12,7 @@ connectDB();
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cors()); // Use cors middleware
 
 // Routes
 app.use('/api/auth', require('./routes/auth'));
