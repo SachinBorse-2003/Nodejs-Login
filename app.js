@@ -2,7 +2,9 @@
 
 const express = require('express');
 const connectDB = require('./config/db');
-const cors = require('cors'); // Import the cors middleware
+const cors = require('cors');
+const https = require('https');
+const fs = require('fs');
 
 const app = express();
 
@@ -12,10 +14,19 @@ connectDB();
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cors()); // Use cors middleware
+app.use(cors());
 
 // Routes
 app.use('/api/auth', require('./routes/auth'));
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+// Use HTTPS server
+const httpsOptions = {
+  key: fs.readFileSync('/etc/letsencrypt/live/13.233.158.7/privkey.pem'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/13.233.158.7/fullchain.pem'),
+};
+
+const server = https.createServer(httpsOptions, app);
+
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
