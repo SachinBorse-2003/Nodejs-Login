@@ -23,8 +23,8 @@ const PORT = process.env.PORT || 3000;
 
 // Use HTTPS server
 const httpsOptions = {
-  key: fs.readFileSync('/etc/letsencrypt/live/13.234.107.102/privkey.pem'),
-  cert: fs.readFileSync('/etc/letsencrypt/live/13.234.107.102/fullchain.pem'),
+  key: fs.readFileSync('/etc/nginx/ssl/nginx.key'),
+  cert: fs.readFileSync('/etc/nginx/ssl/nginx.crt'),
 };
 
 const server = https.createServer(httpsOptions, app);
