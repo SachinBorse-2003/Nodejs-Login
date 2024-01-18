@@ -9,7 +9,7 @@ const User = require('../models/User');
 // Signup
 router.post('/signup', async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { username,email, password } = req.body;
 
     // Check if the user already exists
     const existingUser = await User.findOne({ username });
@@ -24,6 +24,7 @@ router.post('/signup', async (req, res) => {
     // Create a new user
     const newUser = new User({
       username,
+      email,
       password: hashedPassword,
     });
 
