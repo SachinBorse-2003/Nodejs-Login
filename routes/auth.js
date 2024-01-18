@@ -9,12 +9,12 @@ const User = require('../models/User');
 // Signup
 router.post('/signup', async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const { username,email, password } = req.body;
 
     // Check if the user already exists
-    const existingUser = await User.findOne({ $or: [{ username }, { email }] });
+    const existingUser = await User.findOne({ username });
     if (existingUser) {
-      return res.status(400).json({ error: 'User already exists' });
+      return res.status(400).json({ msg: 'User already exists' });
     }
 
     // Hash the password
@@ -30,10 +30,10 @@ router.post('/signup', async (req, res) => {
 
     await newUser.save();
 
-    res.status(201).json({ message: 'User registered successfully' });
+    res.status(201).json({ msg: 'User registered successfully' });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Server Error' });
+    res.status(500).json({ msg: 'Server Error' });
   }
 });
 
@@ -45,13 +45,13 @@ router.post('/login', async (req, res) => {
     // Check if the user exists
     const user = await User.findOne({ username });
     if (!user) {
-      return res.status(401).json({ error: 'Invalid credentials' });
+      return res.status(401).json({ msg: 'Invalid credentials' });
     }
 
     // Check password
     const isPasswordMatch = await bcrypt.compare(password, user.password);
     if (!isPasswordMatch) {
-      return res.status(401).json({ error: 'Invalid credentials' });
+      return res.status(401).json({ msg: 'Invalid credentials' });
     }
 
     // Generate JWT token
@@ -60,7 +60,7 @@ router.post('/login', async (req, res) => {
     res.json({ token });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Server Error' });
+    res.status(500).json({ msg: 'Server Error' });
   }
 });
 
