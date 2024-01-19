@@ -1,7 +1,7 @@
 import OpenAI from 'openai';
 
 // Access API key from environment securely
-const YOUR_OPENAI_API_KEY = process.env.OPENAI_API_KEY || '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'; // Handle missing key gracefully
+const YOUR_OPENAI_API_KEY = process.env.OPENAI_API_KEY || ''; // Handle missing key gracefully
 
 // Create the OpenAI client instance
 const openai = new OpenAI(YOUR_OPENAI_API_KEY);
