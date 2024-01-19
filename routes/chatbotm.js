@@ -11,7 +11,7 @@ const generateResponse = async (userInput) => {
       const response = await openai.chat.completions.create({
         model: 'gpt-3.5-turbo',
         messages: [
-          { role: 'system', content: 'You are a ayurvedic medicine assistant.' },
+          { role: 'system', content: 'You are a mental assistant.' },
           { role: 'user', content: userInput }
         ],
       });
@@ -32,7 +32,7 @@ const generateResponse = async (userInput) => {
     }
   };
 
-const handleChatbot = async (req, res) => {
+const handleChatbotM = async (req, res) => {
   try {
     const { message } = req.body;
     const userResponse = message;
@@ -46,4 +46,4 @@ const handleChatbot = async (req, res) => {
   }
 };
 
-export default handleChatbot;
+export default handleChatbotM;

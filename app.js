@@ -1,8 +1,7 @@
-// app.js
-
-const express = require('express');
-const connectDB = require('./config/db');
-const cors = require('cors');
+import express from 'express';
+import connectDB from './config/db.js';
+import cors from 'cors';
+import authRoutes from './routes/auth.js';
 
 const app = express();
 
@@ -15,7 +14,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
 // Routes
-app.use('/api/auth', require('./routes/auth'));
+app.use('/api/auth', authRoutes);
 
 const PORT = process.env.PORT || 3000;
 
