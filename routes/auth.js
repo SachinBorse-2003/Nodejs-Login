@@ -1,11 +1,19 @@
 // routes/auth.js
-
+// Import necessary modules
 const express = require('express');
 const router = express.Router();
+const { WebhookClient } = require('dialogflow-fulfillment');
+const handleChatbot = require("../routes/chatbot")
+
+// Other imports for authentication and user model
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
+
+
+// Apply the chatbot logic to the '/chat' endpoint
+router.post('/chat', handleChatbot);
 // Signup
 router.post('/signup', async (req, res) => {
   try {
