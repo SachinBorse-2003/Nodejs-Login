@@ -5,6 +5,7 @@ import { pool } from '../config/db.js';
 import handleChatbot from './chatbot.js';
 import handleChatbotM from './chatbotm.js'
 
+
 const router = express.Router();
 
 router.post('/chat',handleChatbot)
@@ -56,5 +57,80 @@ router.post('/login', async (req, res) => {
     res.status(500).json({ msg: 'Server Error' });
   }
 });
+router.post('/organdonation', async (req, res) => {
+  try {
+    const {
+      phone_no,
+      organ,
+      donated,
+      disease,
+      state,
+      city,
+      birthdate,
+      medical_conditions,
+      allergies,
+      medications,
+      email,
+      address,
+    } = req.body;
 
+    const query = `INSERT INTO organdonation 
+                   (phone_no, organ, donated, disease, state, city, birthdate, medical_conditions, allergies, medications, email, address)
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+
+    await pool.query(query, [
+      phone_no,
+      organ,
+      donated,
+      disease,
+      state,
+      city,
+      birthdate,
+      medical_conditions,
+      allergies,
+      medications,
+      email,
+      address,
+    ]);
+
+    res.status(201).json({ msg: 'Organ donation details added successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ msg: 'Server Error' });
+  }
+});
+router.post('/blooddonation', async (req, res) => {
+  try {
+    const {
+      name,
+      blood_type,
+      contact_number,
+      state,
+      city,
+      recent_donation,
+      has_disease,
+      birth_date,
+    } = req.body;
+
+    const sql = `INSERT INTO blood_donors 
+                 (name, blood_type, contact_number, state, city, recent_donation, has_disease, birth_date)
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+
+    await pool.query(sql, [
+      name,
+      blood_type,
+      contact_number,
+      state,
+      city,
+      recent_donation,
+      has_disease,
+      birth_date,
+    ]);
+
+    res.status(201).json({ msg: 'Blood donation details added successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ msg: 'Server Error' });
+  }
+});
 export default router;
