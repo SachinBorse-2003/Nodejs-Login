@@ -133,4 +133,18 @@ router.post('/blooddonation', async (req, res) => {
     res.status(500).json({ msg: 'Server Error' });
   }
 });
+router.post('/organdonationfetch',async(req,res)=>{
+  try{
+    await pool.query('SELECT * from organdonation')
+  }catch(error){
+    res.status(500).json({ msg: 'Server Error' });
+  }
+});
+router.post('/blooddonationfetch',async(req,res)=>{
+  try{
+    await pool.query('SELECT * from blood_donors')
+  }catch(error){
+    res.status(500).json({ msg: 'Server Error' });
+  }
+});
 export default router;
