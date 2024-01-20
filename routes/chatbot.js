@@ -31,7 +31,7 @@ const handleChatbot = async (req, res) => {
 
     const openaiResponse = await generateResponse(userResponse);
 
-    res.json({ fulfillmentText: openaiResponse });
+    res.json({ openaiResponse });
   } catch (error) {
     console.error('Error handling chat message:', error);
     res.status(500).json({ error: 'Internal Server Error' });
