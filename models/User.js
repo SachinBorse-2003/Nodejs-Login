@@ -1,11 +1,34 @@
-import mongoose from 'mongoose';
+import mysql from 'mysql2/promise';
+import dotenv from 'dotenv';
 
-const userSchema = new mongoose.Schema({
-  username: { type: String, required: true, unique: true },
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
+dotenv.config();
+
+const pool = mysql.createPool({
+  host: process.env.MYSQL_HOST || 'localhost',
+  user: process.env.MYSQL_USER || 'root',
+  password: process.env.MYSQL_PASSWORD || 'root123',
+  database: process.env.MYSQL_DATABASE || 'Dhanvantari',
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
 });
 
-const User = mongoose.model('User', userSchema);
+const createUserTable = async () => {
+  try {
+    const connection = await pool.getConnection();
+    await connection.query(`
+      CREATE TABLE IF NOT EXISTS users (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        username VARCHAR(255) NOT NULL UNIQUE,
+        email VARCHAR(255) NOT NULL UNIQUE,
+        password VARCHAR(255) NOT NULL
+      )
+    `);
+    connection.release();
+    console.log('User table created');
+  } catch (error) {
+    console.error('Error creating user table:', error.message);
+  }
+};
 
-export default User;
+export default { pool, createUserTable };
