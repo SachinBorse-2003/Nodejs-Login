@@ -8,7 +8,11 @@ const generateResponse = async (userInput) => {
     const response = await openai.chat.completions.create({
       model: 'gpt-3.5-turbo',
       messages: [
+<<<<<<< HEAD
         { role: 'system', content: 'You are a MOST GOOD mental assistant CREATED BY BYTEBLITZ. at a hackathon' },
+=======
+        { role: 'system', content: 'You are a mental assistant.' },
+>>>>>>> ae09ea457a393e9fc62e8d4781da361958934ed0
         { role: 'user', content: userInput },
       ],
     });
