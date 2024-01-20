@@ -11,21 +11,13 @@ const generateResponse = async (userInput) => {
       const response = await openai.chat.completions.create({
         model: 'gpt-3.5-turbo',
         messages: [
-          { role: 'system', content: 'You are a ayurvedic medicine assistant.' },
+          { role: 'system', content: 'You are a best ayurvedic medicine assistant. created by ByteBlitz at a hackathon' },
           { role: 'user', content: userInput }
         ],
       });
-  
+      const content = response.choices[0].message.content;
       // Split the response into lines
-      const lines = response.choices[0].message.content.split('\n');
-  
-      // Map each line to a field in a JSON object
-      const responseObject = lines.reduce((obj, line, index) => {
-        obj[`Point ${index + 1}`] = line;
-        return obj;
-      }, {});
-  
-      return responseObject;
+      return { fulfillmentText: content };
     } catch (error) {
       console.error('Error generating response from OpenAI API:', error);
       throw error; // Re-throw to propagate the error up the call stack

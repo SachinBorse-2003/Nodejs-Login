@@ -1,36 +1,27 @@
 import OpenAI from 'openai';
 
-// Access API key from environment securely
-const YOUR_OPENAI_API_KEY = process.env.OPENAI_API_KEY || ''; // Handle missing key gracefully
-
-// Create the OpenAI client instance
+const YOUR_OPENAI_API_KEY = process.env.OPENAI_API_KEY || '';
 const openai = new OpenAI(YOUR_OPENAI_API_KEY);
 
 const generateResponse = async (userInput) => {
-    try {
-      const response = await openai.chat.completions.create({
-        model: 'gpt-3.5-turbo',
-        messages: [
-          { role: 'system', content: 'You are a mental assistant.' },
-          { role: 'user', content: userInput }
-        ],
-      });
-  
-      // Split the response into lines
-      const lines = response.choices[0].message.content.split('\n');
-  
-      // Map each line to a field in a JSON object
-      const responseObject = lines.reduce((obj, line, index) => {
-        obj[`Point ${index + 1}`] = line;
-        return obj;
-      }, {});
-  
-      return responseObject;
-    } catch (error) {
-      console.error('Error generating response from OpenAI API:', error);
-      throw error; // Re-throw to propagate the error up the call stack
-    }
-  };
+  try {
+    const response = await openai.chat.completions.create({
+      model: 'gpt-3.5-turbo',
+      messages: [
+        { role: 'system', content: 'You are a MOST GOOD mental assistant CREATED BY BYTEBLITZ. at a hackathon' },
+        { role: 'user', content: userInput },
+      ],
+    });
+
+    // Extract the content from the response
+    const content = response.choices[0].message.content;
+
+    return { fulfillmentText: content };
+  } catch (error) {
+    console.error('Error generating response from OpenAI API:', error);
+    throw error;
+  }
+};
 
 const handleChatbotM = async (req, res) => {
   try {
@@ -39,7 +30,7 @@ const handleChatbotM = async (req, res) => {
 
     const openaiResponse = await generateResponse(userResponse);
 
-    res.json({ fulfillmentText: openaiResponse });
+    res.json(openaiResponse);
   } catch (error) {
     console.error('Error handling chat message:', error);
     res.status(500).json({ error: 'Internal Server Error' });
