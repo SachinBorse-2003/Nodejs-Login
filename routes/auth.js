@@ -10,13 +10,6 @@ router.post('/signup', async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
-    // Check if the user already exists
-    const [existingUser] = await pool.query('SELECT * FROM users WHERE username = ?', [username]);
-
-    if (existingUser.length > 0) {
-      return res.status(400).json({ msg: 'User already exists' });
-    }
-
     // Hash the password
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
