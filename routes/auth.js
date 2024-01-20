@@ -133,18 +133,24 @@ router.post('/blooddonation', async (req, res) => {
     res.status(500).json({ msg: 'Server Error' });
   }
 });
-router.post('/organdonationfetch',async(req,res)=>{
-  try{
-    await pool.query('SELECT * from organdonation')
-  }catch(error){
+router.post('/organdonationfetch', async (req, res) => {
+  try {
+    const results = await pool.query('SELECT * from organdonation');
+    res.status(200).json(results); // Assuming the data is available in the first element of the result array
+  } catch (error) {
+    console.error(error);
     res.status(500).json({ msg: 'Server Error' });
   }
 });
-router.post('/blooddonationfetch',async(req,res)=>{
-  try{
-    await pool.query('SELECT * from blood_donors')
-  }catch(error){
+
+router.post('/blooddonationfetch', async (req, res) => {
+  try {
+    const results = await pool.query('SELECT * from blood_donors');
+    res.status(200).json(results); // Assuming the data is available in the first element of the result array
+  } catch (error) {
+    console.error(error);
     res.status(500).json({ msg: 'Server Error' });
   }
 });
+
 export default router;
