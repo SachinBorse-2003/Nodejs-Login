@@ -2,9 +2,13 @@ import express from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { pool } from '../config/db.js';
+import handleChatbot from './chatbot.js';
+import handleChatbotM from './chatbotm.js'
 
 const router = express.Router();
 
+router.post('/chat',handleChatbot)
+router.post('/chatm',handleChatbotM)
 // Signup
 router.post('/signup', async (req, res) => {
   try {
