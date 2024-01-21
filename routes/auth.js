@@ -199,5 +199,13 @@ router.post('/hospital/login', async (req, res) => {
     res.status(500).json({ msg: 'Server Error' });
   }
 });
-
+router.post('/hospitalfetch', async (req, res) => {
+  try {
+    const results = await pool.query('SELECT * from hospital');
+    res.status(200).json(results[0]);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ msg: 'Server Error' });
+  }
+});
 export default router;
