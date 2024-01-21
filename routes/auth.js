@@ -196,6 +196,15 @@ router.post('/bookAppointment', (req, res) => {
     res.json({ success: true, appointmentId: results.insertId });
   });
 });
+router.get('/appointmentfetch',async(req,res)=>{
+  try {
+    const results = await pool.query('SELECT * from appointments');
+    res.status(200).json(results[0]);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ msg: 'Server Error' });
+  }
+})
 
 router.post('/hospital/login', async (req, res) => {
   try {
