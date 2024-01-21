@@ -171,6 +171,32 @@ router.post('/hospital/signup', async (req, res) => {
     res.status(500).json({ msg: 'Server Error' });
   }
 });
+router.post('/bookAppointment', (req, res) => {
+  const {
+    hospitalName,
+    doctorName,
+    selectedDate,
+    appointmentReason,
+    patientName,
+    gender,
+  } = req.body;
+
+  // Replace with your MySQL table and column names
+  const query = "INSERT INTO appointments (hospital_name, doctor_name, selected_date, appointment_reason, patient_name, gender) VALUES (?, ?, ?, ?, ?, ?)";
+  const values = [hospitalName, doctorName, selectedDate, appointmentReason, patientName, gender];
+
+  connection.query(query, values, (error, results) => {
+    if (error) {
+      console.error('Error booking appointment:', error);
+      res.status(500).json({ error: 'Error booking appointment' });
+      return;
+    }
+
+    console.log('Appointment booked successfully');
+    res.json({ success: true, appointmentId: results.insertId });
+  });
+});
+
 
 router.post('/hospital/login', async (req, res) => {
   try {
