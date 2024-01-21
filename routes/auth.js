@@ -174,7 +174,6 @@ router.post('/hospital/signup', async (req, res) => {
 router.post('/bookAppointment', (req, res) => {
   const {
     hospital_id,
-    
     selected_date,
     appointment_reason,
     patient_name,
@@ -182,10 +181,11 @@ router.post('/bookAppointment', (req, res) => {
   } = req.body;
 
   // Replace with your MySQL table and column names
-  const query = "INSERT INTO appointments (hospital_id, selected_date, appointment_reason, patient_name, gender) VALUES ( ?, ?, ?, ?, ?)";
-  const values = [hospital_id, selected_date, appointment_reason,     patient_name, gender];
+  const query = "INSERT INTO appointments (hospital_id, selected_date, appointment_reason, patient_name, gender) VALUES (?, ?, ?, ?, ?)";
+  const values = [hospital_id, selected_date, appointment_reason, patient_name, gender];
 
-  connection.query(query, values, (error, results) => {
+  // Use pool instead of connection
+  pool.query(query, values, (error, results) => {
     if (error) {
       console.error('Error booking appointment:', error);
       res.status(500).json({ error: 'Error booking appointment' });
@@ -196,7 +196,6 @@ router.post('/bookAppointment', (req, res) => {
     res.json({ success: true, appointmentId: results.insertId });
   });
 });
-
 
 router.post('/hospital/login', async (req, res) => {
   try {
