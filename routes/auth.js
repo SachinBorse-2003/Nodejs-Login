@@ -60,6 +60,7 @@ router.post('/login', async (req, res) => {
 router.post('/organdonation', async (req, res) => {
   try {
     const {
+      full_name,
       phone_no,
       organ,
       donated,
@@ -75,10 +76,11 @@ router.post('/organdonation', async (req, res) => {
     } = req.body;
 
     const query = `INSERT INTO organdonation 
-                   (phone_no, organ, donated, disease, state, city, birthdate, medical_conditions, allergies, medications, email, address)
-                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+                   (full_name,phone_no, organ, donated, disease, state, city, birthdate, medical_conditions, allergies, medications, email, address)
+                   VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
     await pool.query(query, [
+      full_name,
       phone_no,
       organ,
       donated,
