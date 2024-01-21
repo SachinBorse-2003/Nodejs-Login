@@ -173,17 +173,18 @@ router.post('/hospital/signup', async (req, res) => {
 });
 router.post('/bookAppointment', (req, res) => {
   const {
-    hospitalName,
-    doctorName,
-    selectedDate,
-    appointmentReason,
-    patientName,
+    hospital_id,
+    
+    selected_date,
+    appointment_reason,
+    patient_name,
     gender,
   } = req.body;
 
   // Replace with your MySQL table and column names
   const query = "INSERT INTO appointments (hospital_name, doctor_name, selected_date, appointment_reason, patient_name, gender) VALUES (?, ?, ?, ?, ?, ?)";
-  const values = [hospitalName, doctorName, selectedDate, appointmentReason, patientName, gender];
+  const values = [hospital_id, selected_date, appointment_reason,     patient_name,
+    , gender];
 
   connection.query(query, values, (error, results) => {
     if (error) {
