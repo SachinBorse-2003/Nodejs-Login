@@ -101,7 +101,7 @@ router.post('/organdonation', async (req, res) => {
     res.status(500).json({ msg: 'Server Error' });
   }
 });
-router.post('/blooddonation', async (req, res) => {
+router.get('/blooddonation', async (req, res) => {
   try {
     const {
       name,
